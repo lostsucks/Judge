@@ -1,5 +1,6 @@
 package me.yirf.judge.menu;
 
+import com.viaversion.viaversion.api.Via;
 import me.clip.placeholderapi.PlaceholderAPI;
 import me.yirf.judge.Judge;
 import me.yirf.judge.config.Config;
@@ -7,6 +8,7 @@ import me.yirf.judge.group.Group;
 import me.yirf.judge.interfaces.Color;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
 import org.bukkit.util.Transformation;
@@ -17,6 +19,12 @@ import static org.bukkit.entity.Display.Billboard;
 
 public class Display implements Color {
     public static void spawnMenu(Player player, Player target) {
+        if(Bukkit.getServer().getPluginManager().isPluginEnabled("ViaVersion")) {
+            if(Via.getAPI().getPlayerVersion(player.getUniqueId()) < 762) {
+                Bukkit.broadcastMessage("Less then version!");
+                return;
+            }
+        }
         TextDisplay display = target.getWorld().spawn(target.getLocation(), TextDisplay.class);
         display.setShadowed(true);
         display.setBillboard(Billboard.CENTER);

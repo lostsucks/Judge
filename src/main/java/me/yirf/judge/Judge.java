@@ -34,6 +34,7 @@ public final class Judge extends JavaPlugin {
     public static float menuScale;
     public static boolean hasPapi;
     public static List<World> allowedWorlds;
+    public static boolean hasWorldGuard = false;
 
     @Override
     public void onEnable() {
@@ -42,14 +43,16 @@ public final class Judge extends JavaPlugin {
         init();
         sched();
         data();
+
+        if (pm.isPluginEnabled("WorldGuard")) {
+            hasWorldGuard = true;
+        }
     }
 
     @Override
     public void onDisable() {
-        for (World world: Bukkit.getWorlds()){
-            for (TextDisplay entity : world.getEntitiesByClass(TextDisplay.class)){
-                entity.remove();
-            }
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            Group.remove(p);
         }
     }
 

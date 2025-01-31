@@ -1,10 +1,10 @@
 package me.yirf.judge.events;
 
-import com.viaversion.viaversion.api.Via;
 import me.yirf.judge.Judge;
 import me.yirf.judge.config.Config;
 import me.yirf.judge.group.Group;
 import me.yirf.judge.menu.Display;
+import me.yirf.judge.utils.RegionUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -24,25 +24,21 @@ public class OnSneak implements Listener {
             return;
         }
 
-        if(!Config.getBoolean("allow-all-worlds")) {
+
+        if(Config.getBoolean("allow-all-worlds")) {
             if (!Judge.allowedWorlds.contains(p.getWorld())) {
                 return;
             }
+        }if (Judge.hasWorldGuard && Config.getBoolean("specific-regions")) {
+            if (!RegionUtil.containsRegion
+                    (p, Config.getStringList("allowed-regions")
+                    )) return;
         }
 
-        //Prevent displaying to the player if they are on a version without display entities (under 1.19.4) if ViaVersion is installed.
-        if(Bukkit.getServer().getPluginManager().isPluginEnabled("ViaVersion")) {
-            if(Via.getAPI().getPlayerVersion(p.getUniqueId()) < 762) {
-                return;
-            }
-        }
-
-        RayTraceResult result = p.rayTraceEntities(10);
-        if (result == null || !(result.getHitEntity() instanceof Player)) {return;}
+        RayTraceResult result = p.rayTraceEntities(10);if (result == null || !(result.getHitEntity() instanceof Player)) {return;}
         Entity entity = result.getHitEntity();
 
         if (!event.isSneaking()) {return;}
-
         if(Bukkit.getServer().getOnlinePlayers().contains(p)) {
             Display.spawnMenu(p, (Player) entity);
         }

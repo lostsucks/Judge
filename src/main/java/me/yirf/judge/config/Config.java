@@ -74,5 +74,6 @@ public class Config implements Color {
         if(!Config.getBoolean("allow-all-worlds")) {
             Judge.allowedWorlds = Config.getWorldList("allowed-worlds");
         }
+
     }
 }

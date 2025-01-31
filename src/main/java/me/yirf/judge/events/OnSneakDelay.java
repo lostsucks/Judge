@@ -1,10 +1,10 @@
 package me.yirf.judge.events;
 
-import com.viaversion.viaversion.api.Via;
 import me.yirf.judge.Judge;
 import me.yirf.judge.config.Config;
 import me.yirf.judge.group.Group;
 import me.yirf.judge.menu.Display;
+import me.yirf.judge.utils.RegionUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -28,17 +28,16 @@ public class OnSneakDelay implements Listener {
             return;
         }
 
-        if(!Config.getBoolean("allow-all-worlds")) {
+        if(Config.getBoolean("allow-all-worlds")) {
             if (!Judge.allowedWorlds.contains(p.getWorld())) {
                 return;
             }
         }
 
-        //Prevent displaying to the player if they are on a version without display entities (under 1.19.4) if ViaVersion is installed.
-        if(Bukkit.getServer().getPluginManager().isPluginEnabled("ViaVersion")) {
-            if(Via.getAPI().getPlayerVersion(p.getUniqueId()) < 762) {
-                return;
-            }
+        if (Judge.hasWorldGuard || Config.getBoolean("specific-regions")) {
+            if (!RegionUtil.containsRegion
+                    (p, Config.getStringList("allowed-regions")
+                    )) return;
         }
 
         if (!event.isSneaking()) {return;}
@@ -51,7 +50,7 @@ public class OnSneakDelay implements Listener {
             if(!Bukkit.getServer().getOnlinePlayers().contains((Player) entity)) {return;}
             if (!event.isSneaking()) {return;}
             Display.spawnMenu(p, (Player) entity);
-        }, 20L * Config.getInt("delay"));
+        }, Config.getInt("delay"));
 
     }
 
