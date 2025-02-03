@@ -28,7 +28,7 @@ public class Display implements Color {
         TextDisplay display = target.getWorld().spawn(target.getLocation(), TextDisplay.class);
         display.setShadowed(true);
         display.setBillboard(Billboard.CENTER);
-        display.setVisibleByDefault(false);
+        display.setVisibleByDefault(true);
         if(!Config.getString("properties.color").equals("DEFAULT")) {
             display.setBackgroundColor(Config.getRGB("properties.color"));
         }

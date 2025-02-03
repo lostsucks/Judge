@@ -28,7 +28,7 @@ public class OnSneakDelay implements Listener {
             return;
         }
 
-        if(Config.getBoolean("allow-all-worlds")) {
+        if(!Config.getBoolean("allow-all-worlds")) {
             if (!Judge.allowedWorlds.contains(p.getWorld())) {
                 return;
             }

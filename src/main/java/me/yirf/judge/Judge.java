@@ -16,6 +16,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -33,7 +34,7 @@ public final class Judge extends JavaPlugin {
     public static List<String> menuTexts;
     public static float menuScale;
     public static boolean hasPapi;
-    public static List<World> allowedWorlds;
+    public static List<World> allowedWorlds = new ArrayList<World>();
     public static boolean hasWorldGuard = false;
 
     @Override

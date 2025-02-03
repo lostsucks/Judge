@@ -24,12 +24,12 @@ public class OnSneak implements Listener {
             return;
         }
 
-
-        if(Config.getBoolean("allow-all-worlds")) {
+        if(!Config.getBoolean("allow-all-worlds")) {
             if (!Judge.allowedWorlds.contains(p.getWorld())) {
                 return;
             }
-        }if (Judge.hasWorldGuard && Config.getBoolean("specific-regions")) {
+        }
+        if (Judge.hasWorldGuard && Config.getBoolean("specific-regions")) {
             if (!RegionUtil.containsRegion
                     (p, Config.getStringList("allowed-regions")
                     )) return;
