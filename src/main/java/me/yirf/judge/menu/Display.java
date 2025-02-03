@@ -8,6 +8,7 @@ import me.yirf.judge.group.Group;
 import me.yirf.judge.interfaces.Color;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.TextDisplay;
@@ -61,15 +62,16 @@ public class Display implements Color {
             if (Judge.hasPapi) {
                 line = PlaceholderAPI.setPlaceholders(target, line);
             }
-            line = Color.format(line).replaceAll("%player%", target.getName()).replaceAll("%viewer%", player.getName());
 
-            TextComponent textComponent = Component.text(line);
+            // Convert color codes before creating the component
+            line = Color.format(line)
+                    .replaceAll("%player%", target.getName())
+                    .replaceAll("%viewer%", player.getName());
 
-            if (text == null) {
-                text.append(textComponent);
-            }
+            // Convert legacy color codes (§) to Adventure's Component
+            TextComponent textComponent = LegacyComponentSerializer.legacySection().deserialize(line);
 
-            text.appendNewline().append(textComponent);
+            text.append(textComponent).append(Component.newline());
         }
 
         return text.build();
