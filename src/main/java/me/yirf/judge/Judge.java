@@ -3,9 +3,11 @@ package me.yirf.judge;
 import me.yirf.judge.commands.ReloadCommand;
 import me.yirf.judge.config.Config;
 import me.yirf.judge.events.OnDisconnect;
+import me.yirf.judge.events.OnJoin;
 import me.yirf.judge.events.OnSneak;
 import me.yirf.judge.events.OnSneakDelay;
 import me.yirf.judge.group.Group;
+import me.yirf.judge.utils.JsonUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -36,11 +38,13 @@ public final class Judge extends JavaPlugin {
     public static boolean hasPapi;
     public static List<World> allowedWorlds = new ArrayList<World>();
     public static boolean hasWorldGuard = false;
+    public static boolean oldVersion = true;
 
     @Override
     public void onEnable() {
         instance = this;
         pm = getServer().getPluginManager();
+        versionCheck();
         init();
         sched();
         data();
@@ -77,6 +81,19 @@ public final class Judge extends JavaPlugin {
         }
     }
 
+    private void versionCheck() {
+        String url = "https://api.spiget.org/v2/resources/119624/versions/latest";
+        try {
+            String jsonResponse = JsonUtil.fetchJSON(url);
+            String v = JsonUtil.extractName(jsonResponse);
+            if (getDescription().getVersion() == v) {
+                oldVersion = false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void init() {
         if(Config.getInt("delay") == 0) {
             pm.registerEvents(new OnSneak(), this);
@@ -84,6 +101,7 @@ public final class Judge extends JavaPlugin {
             pm.registerEvents(new OnSneakDelay(), this);
         }
         pm.registerEvents(new OnDisconnect(), this);
+        pm.registerEvents(new OnJoin(), this);
         this.getCommand("reloadjudge").setExecutor(new ReloadCommand());
 
     }
