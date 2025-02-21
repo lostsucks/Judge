@@ -38,6 +38,10 @@ public class OnSneak implements Listener {
         RayTraceResult result = p.rayTraceEntities(10);if (result == null || !(result.getHitEntity() instanceof Player)) {return;}
         Entity entity = result.getHitEntity();
 
+        if (entity.hasMetadata("NPC")) {
+            return;
+        }
+
         if (!event.isSneaking()) {return;}
         if(Bukkit.getServer().getOnlinePlayers().contains(p)) {
             Display.spawnMenu(p, (Player) entity);

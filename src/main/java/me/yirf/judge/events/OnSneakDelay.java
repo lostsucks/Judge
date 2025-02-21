@@ -45,10 +45,19 @@ public class OnSneakDelay implements Listener {
         Bukkit.getScheduler().runTaskLater(Judge.instance, () -> { //super fat fucking sched!!!
             control.put(p.getUniqueId(), true);
             RayTraceResult result = p.rayTraceEntities(10);
-            if (result == null || !(result.getHitEntity() instanceof Player)) {return;}
+            if (result == null || !(result.getHitEntity() instanceof Player)) {
+                return;
+            }
             Entity entity = result.getHitEntity();
-            if(!Bukkit.getServer().getOnlinePlayers().contains((Player) entity)) {return;}
-            if (!event.isSneaking()) {return;}
+            if (entity.hasMetadata("NPC")) {
+                return;
+            }
+            if(!Bukkit.getServer().getOnlinePlayers().contains((Player) entity)) {
+                return;
+            }
+            if (!event.isSneaking()) {
+                return;
+            }
             Display.spawnMenu(p, (Player) entity);
         }, Config.getInt("delay"));
 

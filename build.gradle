@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'me.yirf'
-version = '0.6'
+version = '0.7'
 
 repositories {
     mavenCentral()
@@ -19,6 +19,10 @@ repositories {
     maven {url = 'https://repo.extendedclip.com/content/repositories/placeholderapi/'}
     maven {url = 'https://repo.viaversion.com'}
     maven { url "https://maven.enginehub.org/repo/" }
+    maven {
+        name = 'citizens-repo'
+        url = 'https://maven.citizensnpcs.co/repo'
+    }
 }
 
 dependencies {
@@ -30,6 +34,9 @@ dependencies {
     implementation("net.kyori:adventure-text-minimessage:4.18.0")
     implementation("net.kyori:adventure-text-serializer-legacy:4.18.0")
     implementation 'org.json:json:20210307'
+    compileOnly('net.citizensnpcs:citizens-main:2.0.35-SNAPSHOT') {
+        exclude group: '*', module: '*'
+    }
 }
 
 shadowJar {

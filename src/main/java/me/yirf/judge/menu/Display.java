@@ -51,6 +51,7 @@ public class Display implements Color {
                 )
         );
 
+        Bukkit.getOnlinePlayers().forEach(p -> p.hideEntity(Judge.instance, display));
         player.showEntity(Judge.instance, display);
         Group.add(display, player);
     }
