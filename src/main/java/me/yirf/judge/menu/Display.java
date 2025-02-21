@@ -30,6 +30,7 @@ public class Display implements Color {
         display.setShadowed(true);
         display.setBillboard(Billboard.CENTER);
         display.setVisibleByDefault(true);
+        display.setSeeThrough(true);
         if(!Config.getString("properties.color").equals("DEFAULT")) {
             display.setBackgroundColor(Config.getRGB("properties.color"));
         }
