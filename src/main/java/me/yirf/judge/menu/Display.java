@@ -22,7 +22,8 @@ public class Display implements Color {
     public static void spawnMenu(Player player, Player target) {
         if(Bukkit.getServer().getPluginManager().isPluginEnabled("ViaVersion")) {
             if(Via.getAPI().getPlayerVersion(player.getUniqueId()) < 762) {
-                Bukkit.broadcastMessage("Less then version!");
+                getLogger().info("Player " + player.getName() + " is on a unsupported version!");
+                player.sendMessage("You are on a unsupported version, some features may not be supported.");
                 return;
             }
         }
