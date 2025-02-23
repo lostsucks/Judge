@@ -4,7 +4,6 @@
 board:
   - "&a%player%'s profile"
   - "&8ᴠɪᴇᴡᴇʀ: &7%viewer%"
-@@ -9,32 +10,25 @@ board:
   - "&fRank: %luckperms_prefix%"
   - ""
   - "&7[unsneak to hide]"
