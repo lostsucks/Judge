@@ -4,6 +4,9 @@
 board:
   - "&a%player%'s profile"
   - "&8ᴠɪᴇᴡᴇʀ: &7%viewer%"
+  - ""
+  - "&fKills: &c%statistic_player_kills%"
+  - "&fDeaths: &6%statistic_deaths%"
   - "&fRank: %luckperms_prefix%"
   - ""
   - "&7[unsneak to hide]"
